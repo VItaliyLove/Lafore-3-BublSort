@@ -3,6 +3,7 @@
 import java.util.Date;
 
 class Algorithm {
+
     static class OrdArray {
         private long[] a;
         private int nElems;
@@ -42,20 +43,6 @@ class Algorithm {
             }
         }
 
-        public void swap(int first, int second) {
-            long temp;
-            temp = a[first];
-            a[first] = a[second];
-            a[second] = temp;
-        }
-
-        public void bublSort() {
-            for(int out = nElems-1; out > 0; out--)
-                for (int in = 0; in < out; in++)
-                    if (a[in] > a[out])
-                        swap(in,out);
-        }
-
         public int find(long searchKey) {
             int lowerBound = 0;
             int highBound = nElems-1;
@@ -67,71 +54,70 @@ class Algorithm {
                 else if (lowerBound > highBound)
                     return -1;
                 else
-                if (a[curPos] > searchKey)
-                    highBound = curPos-1;
-                else
-                    lowerBound = curPos+1;
+                    if (a[curPos] > searchKey)
+                        highBound = curPos-1;
+                    else
+                        lowerBound = curPos+1;
             }
         }
 
-        public long getElem(int index) {
-            return a[index];
-        }
-
-        public OrdArray merge(OrdArray b) {
-            int newSize = getSize()+b.getSize();
-            OrdArray c = new OrdArray(newSize);
-            for (int i = 0; i < getSize(); i++)
-                c.insert(a[i]);
-            for (int i = 0; i < b.getSize(); i++)
-                c.insert(b.getElem(i));
-            return c;
-        }
-
-        public void noDups() {
-            int count = 0;
-            for (int i = 0; i < nElems-1; i++)
-                for (int j = i+1; j < nElems; j++)
-                    if (a[j] == a[i]) {
-                        for (int k = j; k < nElems - 1; k++)
-                            a[k] = a[k + 1];
-                        nElems--;
+        public void bublSort() {
+            for (int i = nElems-1; i > 0; i--)
+                for (int j = 0; j < i; j++)
+                    if (a[j]<a[i]) {
+                        long temp;
+                        temp = a[j];
+                        a[j] = a[i];
+                        a[i] = temp;
                     }
+        }
+
+        public void selectSort() {
+            int ptr, i, j;
+            long temp;
+            ptr = 0;
+            for (i = 0; i < nElems-1; i++) {
+                ptr = i;
+                for (j = i + 1; j < nElems; j++)
+                    if (a[j] < a[ptr])
+                        ptr = j;
+                temp = a[i];
+                a[i] = a[ptr];
+                a[ptr] = temp;
+            }
+        }
+
+        public void insertSort() {
+            long temp;
+            int j, i;
+            for (i = 1; i < nElems; i++) {
+                temp = a[i];
+                j = i;
+                while (j > 0 && a[j - 1] >= temp) {
+                    a[j] = a[j-1];
+                    j--;
+                }
+                a[j] = temp;
+            }
         }
     }
 
     public static void main(String[] arg) {
+        OrdArray ordArray = new OrdArray(100);
+
+        for (int i = 0; i < 25; i++) {
+            ordArray.insert(7);
+            ordArray.insert(5);
+            ordArray.insert(3);
+            ordArray.insert(1);
+        }
+        ordArray.display();
         long start = new Date().getTime();
-        System.out.println(new Date().getTime());
-        OrdArray ordArray = new OrdArray(5);
-
-        ordArray.insert(7);
-        ordArray.insert(5);
-        ordArray.insert(3);
-        ordArray.insert(1);
-        ordArray.insert(1);
-        ordArray.display();
-        System.out.println(ordArray.getSize());
-        System.out.println(ordArray.find(3));
-        ordArray.delete(5);
-        ordArray.display();
-        System.out.println(ordArray.getSize());
-
-        ordArray.insert(5);
-
-        OrdArray newOrdArray = new OrdArray(3);
-        newOrdArray.insert(2);
-        newOrdArray.insert(4);
-        newOrdArray.insert(6);
-        OrdArray c = ordArray.merge(newOrdArray);
-        c.display();
-        c.noDups();
-        c.display();
-        c.bublSort();
-        c.display();
-
+        ordArray.insertSort();
         long end = new Date().getTime();
-        System.out.println(end-start);
+        long time = end-start;
+        ordArray.display();
+        System.out.println(time);
     }
-
 }
+
