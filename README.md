@@ -1,4 +1,4 @@
-# Lafore-3-BublSort
+# Lafore-3-sort
 
 import java.util.Date;
 
