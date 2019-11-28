@@ -28,6 +28,26 @@ class Algorithm {
             nElems++;
         }
 
+
+        public void oddEvenSort() {
+            for (int j = 0; j < nElems; j++) {
+                for (int i = 0; i < nElems - 2; i += 2)
+                    if (a[i] > a[i + 2]) {
+                        long temp;
+                        temp = a[i];
+                        a[i] = a[i + 2];
+                        a[i + 2] = temp;
+                    }
+                for (int i = 1; i < nElems - 3; i += 2)
+                    if (a[i] > a[i + 2]) {
+                        long temp;
+                        temp = a[i];
+                        a[i] = a[i + 2];
+                        a[i + 2] = temp;
+                    }
+            }
+        }
+        
         public boolean delete(long elem){
             int j;
             for (j = 0; j < nElems; j++)
